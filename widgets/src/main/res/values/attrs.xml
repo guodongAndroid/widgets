@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DropSearchEditText">
+        <attr name="dropDrawableWidth" format="dimension"/>
+        <attr name="dropDrawableHeight" format="dimension"/>
+        <attr name="dropDownDrawable" format="reference"/>
+        <attr name="riseUpDrawable" format="reference"/>
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,51 @@
+apply plugin: 'maven-publish'
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+}
+
+task androidJavadocsJar(type: Jar) {
+    archiveClassifier.set('javadoc')
+    from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = project.GROUP_ID
+                artifactId = project.ARTIFACT_ID
+                version = project.VERSION
+
+                artifact androidJavadocsJar
+                artifact androidSourcesJar
+            }
+        }
+
+        repositories {
+            maven {
+
+                // https://github.com/guodongAndroid/maven.git
+                String mavenUrl = getMavenUrl()
+
+                name = "Local"
+                url = mavenUrl
+            }
+        }
+    }
+}
+
+private String getMavenUrl() {
+    def properties = new Properties()
+    def is = rootProject.file('local.properties').newDataInputStream()
+    properties.load(is)
+    def mavenUrl = properties.getProperty('maven.url')
+    mavenUrl
+}
