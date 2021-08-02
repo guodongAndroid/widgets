@@ -38,6 +38,11 @@ afterEvaluate {
                 name = "Local"
                 url = mavenUrl
             }
+
+            maven {
+                name = "Build"
+                url = "${buildDir}${File.separator}repo/"
+            }
         }
     }
 }
