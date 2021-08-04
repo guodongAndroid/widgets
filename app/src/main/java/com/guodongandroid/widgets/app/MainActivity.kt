@@ -26,6 +26,9 @@ class MainActivity : AppCompatActivity() {
             R.id.btn_drop_search -> {
                 startActivity(DropSearchEditTextActivity::class.java)
             }
+            R.id.btn_marquee -> {
+                startActivity(MarqueeTextViewActivity::class.java)
+            }
             else -> {
             }
         }

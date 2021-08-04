@@ -39,6 +39,9 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
     private int mDrawableWidth;
     private int mDrawableHeight;
 
+    private boolean isExpandClickRange;
+    private int mClickOffset;
+
     public DropSearchEditText(@NonNull Context context) {
         this(context, null);
     }
@@ -61,6 +64,9 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
 
         mDrawableWidth = ta.getDimensionPixelSize(R.styleable.DropSearchEditText_dropDrawableWidth, 15);
         mDrawableHeight = ta.getDimensionPixelSize(R.styleable.DropSearchEditText_dropDrawableHeight, 15);
+
+        isExpandClickRange = ta.getBoolean(R.styleable.DropSearchEditText_expandClickRange, false);
+        mClickOffset = ta.getDimensionPixelSize(R.styleable.DropSearchEditText_clickOffset, 0);
 
         ta.recycle();
 
@@ -89,17 +95,43 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (!isEnabled()) {
+            return super.onTouchEvent(event);
+        }
+
         int masked = event.getActionMasked();
         if (masked == MotionEvent.ACTION_UP) {
             Drawable drawable = getCompoundDrawablesRelative()[2];
             if (drawable != null) {
-                if (event.getX() > getWidth() - drawable.getBounds().width()) {
+
+                int offset = 0;
+                if (isExpandClickRange) {
+                    offset = mClickOffset;
+                }
+
+                if (event.getX() > getWidth() - drawable.getBounds().width() - offset - getPaddingEnd()) {
                     showDropDown();
                     return true;
                 }
             }
         }
         return super.onTouchEvent(event);
+    }
+
+    public boolean isExpandClickRange() {
+        return isExpandClickRange;
+    }
+
+    public void setExpandClickRange(boolean expandClickRange) {
+        isExpandClickRange = expandClickRange;
+    }
+
+    public int getClickOffset() {
+        return mClickOffset;
+    }
+
+    public void setClickOffset(int clickOffset) {
+        mClickOffset = clickOffset;
     }
 
     @Override

@@ -20,9 +20,9 @@ allprojects {
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
 
-//        maven {
-//            url "${rootDir}/widgets/build/repo/"
-//        }
+        maven {
+            url "${rootDir}/widgets/build/repo/"
+        }
 
         maven {
             url "https://raw.githubusercontent.com/guodongAndroid/maven/main/repository/"

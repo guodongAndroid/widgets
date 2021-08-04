@@ -28,6 +28,9 @@ class DropSearchEditTextActivity : AppCompatActivity() {
 
         mBinding.dropSearch.setAdapter(adapter)
 
+        mBinding.dropSearch.isExpandClickRange = false
+        mBinding.dropSearch.clickOffset = 500
+
         mBinding.dropSearch.setOnItemClickListener { _, _, position, _ ->
             Toast.makeText(
                 this,

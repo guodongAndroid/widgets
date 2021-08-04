@@ -74,6 +74,8 @@
         android:hint="请选择"
         android:textColorHint="#cccccc"
         android:textSize="12sp"
+        app:expandClickRange="true"
+        app:clickOffset="30dp"
         app:dropDownDrawable="@drawable/pic_drop_blue"
         app:dropDrawableHeight="30dp"
         app:dropDrawableWidth="30dp"

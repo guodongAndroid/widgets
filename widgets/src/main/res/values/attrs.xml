@@ -6,6 +6,15 @@
         <attr name="dropDrawableHeight" format="dimension"/>
         <attr name="dropDownDrawable" format="reference"/>
         <attr name="riseUpDrawable" format="reference"/>
+        <attr name="expandClickRange" format="boolean"/>
+        <attr name="clickOffset" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="MarqueeTextView">
+        <attr name="orientation">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
     </declare-styleable>
 
 </resources>
