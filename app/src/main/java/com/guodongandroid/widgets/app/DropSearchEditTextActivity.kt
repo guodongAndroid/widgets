@@ -17,14 +17,14 @@ class DropSearchEditTextActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityDropSearchEditTextBinding
 
+    private var sorted = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityDropSearchEditTextBinding.inflate(LayoutInflater.from(this))
         setContentView(mBinding.root)
 
-        val models: MutableList<Model> = generateModels()
-
-        val adapter = Adapter(models)
+        val adapter = Adapter(generateModels())
 
         mBinding.dropSearch.setAdapter(adapter)
 
@@ -34,6 +34,42 @@ class DropSearchEditTextActivity : AppCompatActivity() {
                 "position: $position, ${adapter.getItem(position).name}",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+
+        val model = Model("Add Model", 14, 18)
+        val models = listOf(
+            Model("Add Model 1", 15, 18),
+            Model("Add Model 2", 16, 18),
+            Model("Add Model 3", 17, 18)
+        )
+
+        mBinding.btnAdd.setOnClickListener {
+            adapter.add(model)
+        }
+
+        mBinding.btnInsert.setOnClickListener {
+            adapter.insert(0, model)
+        }
+
+        mBinding.btnAddAll.setOnClickListener {
+            adapter.addAll(models)
+        }
+
+        mBinding.btnRemove.setOnClickListener {
+            adapter.remove(model)
+        }
+
+        mBinding.btnClear.setOnClickListener {
+            adapter.clear()
+        }
+
+        mBinding.btnSort.setOnClickListener {
+            sorted = !sorted
+            if (sorted) {
+                adapter.sort { o1, o2 -> o2.id.compareTo(o1.id) }
+            } else {
+                adapter.sort { o1, o2 -> o1.id.compareTo(o2.id) }
+            }
         }
     }
 
@@ -55,7 +91,23 @@ class DropSearchEditTextActivity : AppCompatActivity() {
         )
     }
 
-    private data class Model(val name: String, val id: Int, val age: Int)
+    private data class Model(val name: String, val id: Int, val age: Int) {
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as Model
+
+            if (name != other.name) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return name.hashCode()
+        }
+    }
 
     private class Adapter(objects: MutableList<Model>) :
         DropSearchEditText.Adapter<Model, Adapter.ViewHolder>(objects) {

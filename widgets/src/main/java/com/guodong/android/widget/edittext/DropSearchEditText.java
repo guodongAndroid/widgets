@@ -22,6 +22,9 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import com.guodongandroid.widget.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -138,13 +141,129 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
 
     public abstract static class Adapter<T, VH extends ViewHolder> extends BaseAdapter implements Filterable {
 
+        private final Object mLock = new Object();
+
         private final List<T> mObjects;
 
         private List<T> mOriginalValues;
         private Filter mFilter;
 
+        private boolean mNotifyOnChange = true;
+
         public Adapter(@NonNull List<T> objects) {
             mObjects = objects;
+        }
+
+        public void add(@Nullable T item) {
+            synchronized (mLock) {
+                if (mOriginalValues != null) {
+                    mOriginalValues.add(item);
+                } else {
+                    mObjects.add(item);
+                }
+            }
+
+            if (mNotifyOnChange) {
+                notifyDataSetChanged();
+            }
+        }
+
+        public void addAll(@NonNull Collection<? extends T> collection) {
+            synchronized (mLock) {
+                if (mOriginalValues != null) {
+                    mOriginalValues.addAll(collection);
+                } else {
+                    mObjects.addAll(collection);
+                }
+            }
+
+            if (mNotifyOnChange) {
+                notifyDataSetChanged();
+            }
+        }
+
+        public void addAll(@NonNull T... items) {
+            synchronized (mLock) {
+                if (mOriginalValues != null) {
+                    Collections.addAll(mOriginalValues, items);
+                } else {
+                    Collections.addAll(mObjects, items);
+                }
+            }
+
+            if (mNotifyOnChange) {
+                notifyDataSetChanged();
+            }
+        }
+
+        public void insert(int index, @Nullable T item) {
+            synchronized (mLock) {
+                if (mOriginalValues != null) {
+                    mOriginalValues.add(index, item);
+                } else {
+                    mObjects.add(index, item);
+                }
+            }
+
+            if (mNotifyOnChange) {
+                notifyDataSetChanged();
+            }
+        }
+
+        public void remove(@Nullable T item) {
+            synchronized (mLock) {
+                if (mOriginalValues != null) {
+                    mOriginalValues.remove(item);
+                } else {
+                    mObjects.remove(item);
+                }
+            }
+
+            if (mNotifyOnChange) {
+                notifyDataSetChanged();
+            }
+        }
+
+        public void remove(int index) {
+            synchronized (mLock) {
+                if (mOriginalValues != null) {
+                    mOriginalValues.remove(index);
+                } else {
+                    mObjects.remove(index);
+                }
+            }
+
+            if (mNotifyOnChange) {
+                notifyDataSetChanged();
+            }
+        }
+
+        public void clear() {
+            synchronized (mLock) {
+                if (mOriginalValues != null) {
+                    mOriginalValues.clear();
+                } else {
+                    mObjects.clear();
+                }
+            }
+
+            if (mNotifyOnChange) {
+                notifyDataSetChanged();
+            }
+        }
+
+        public void sort(@NonNull Comparator<? super T> comparator) {
+            synchronized (mLock) {
+                if (mOriginalValues != null) {
+                    Collections.sort(mOriginalValues, comparator);
+                } else {
+                    Collections.sort(mObjects, comparator);
+                }
+            }
+
+            if (mNotifyOnChange) {
+                notifyDataSetChanged();
+            }
         }
 
         @Override
@@ -198,6 +317,12 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
             return mFilter;
         }
 
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            mNotifyOnChange = true;
+        }
+
         private class DropFilter extends Filter {
 
             @Override
@@ -205,19 +330,27 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
                 FilterResults results = new FilterResults();
 
                 if (mOriginalValues == null) {
-                    mOriginalValues = new ArrayList<>(mObjects);
+                    synchronized (mLock) {
+                        mOriginalValues = new ArrayList<>(mObjects);
+                    }
                 }
 
                 if (TextUtils.isEmpty(constraint)) {
-                    List<T> list = new ArrayList<>(mOriginalValues);
+                    final ArrayList<T> list;
+                    synchronized (mLock) {
+                        list = new ArrayList<>(mOriginalValues);
+                    }
                     results.values = list;
                     results.count = list.size();
                 } else {
-                    String constraintString = constraint.toString().toLowerCase();
+                    final String constraintString = constraint.toString().toLowerCase();
 
-                    List<T> values = new ArrayList<>(mOriginalValues);
+                    final ArrayList<T> values;
+                    synchronized (mLock) {
+                       values = new ArrayList<>(mOriginalValues);
+                    }
+
                     int count = values.size();
-
                     List<T> newValues = new ArrayList<>();
 
                     for (int i = 0; i < count; i++) {

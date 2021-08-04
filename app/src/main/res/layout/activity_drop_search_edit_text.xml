@@ -5,24 +5,83 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_insert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Insert"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@id/btn_add"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_add_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="AddAll"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@id/btn_insert"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Remove"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@id/btn_add_all"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Clear"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@id/btn_remove"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Sort"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@id/btn_clear"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.guodong.android.widget.edittext.DropSearchEditText
         android:id="@+id/drop_search"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/bg_edt_grey_conner"
-        android:textColorHint="#cccccc"
-        android:gravity="center_vertical"
-        android:textSize="12sp"
-        android:hint="请选择"
         android:dropDownSelector="@color/teal_700"
-        app:dropDrawableWidth="30dp"
-        app:dropDrawableHeight="30dp"
+        android:gravity="center_vertical"
+        android:hint="请选择"
+        android:textColorHint="#cccccc"
+        android:textSize="12sp"
         app:dropDownDrawable="@drawable/pic_drop_blue"
-        app:riseUpDrawable="@drawable/pic_rise_blue"
-        app:layout_constraintVertical_bias="0.2"
+        app:dropDrawableHeight="30dp"
+        app:dropDrawableWidth="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2"
+        app:riseUpDrawable="@drawable/pic_rise_blue" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
