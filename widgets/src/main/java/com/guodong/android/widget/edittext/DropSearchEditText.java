@@ -42,6 +42,8 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
     private boolean isExpandClickRange;
     private int mClickOffset;
 
+    private boolean isResetBeforeShow;
+
     public DropSearchEditText(@NonNull Context context) {
         this(context, null);
     }
@@ -67,6 +69,8 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
 
         isExpandClickRange = ta.getBoolean(R.styleable.DropSearchEditText_expandClickRange, false);
         mClickOffset = ta.getDimensionPixelSize(R.styleable.DropSearchEditText_clickOffset, 0);
+
+        isResetBeforeShow = ta.getBoolean(R.styleable.DropSearchEditText_resetBeforeShow, false);
 
         ta.recycle();
 
@@ -110,6 +114,16 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
                 }
 
                 if (event.getX() > getWidth() - drawable.getBounds().width() - offset - getPaddingEnd()) {
+                    if (isResetBeforeShow) {
+                        ListAdapter adapter = getAdapter();
+                        if (adapter != null) {
+                            if (adapter instanceof Adapter) {
+                                Adapter<?, ?> adapter1 = (Adapter<?, ?>) adapter;
+                                adapter1.reset();
+                            }
+                        }
+                    }
+
                     showDropDown();
                     return true;
                 }
@@ -132,6 +146,14 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
 
     public void setClickOffset(int clickOffset) {
         mClickOffset = clickOffset;
+    }
+
+    public boolean isResetBeforeShow() {
+        return isResetBeforeShow;
+    }
+
+    public void setResetBeforeShow(boolean resetBeforeShow) {
+        isResetBeforeShow = resetBeforeShow;
     }
 
     @Override
@@ -284,6 +306,16 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
             }
         }
 
+        public void reset() {
+            synchronized (mLock) {
+                if (mOriginalValues != null) {
+                    mObjects.clear();
+                    mObjects.addAll(mOriginalValues);
+                    mOriginalValues = null;
+                }
+            }
+        }
+
         public void sort(@NonNull Comparator<? super T> comparator) {
             synchronized (mLock) {
                 if (mOriginalValues != null) {
@@ -379,7 +411,7 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
 
                     final ArrayList<T> values;
                     synchronized (mLock) {
-                       values = new ArrayList<>(mOriginalValues);
+                        values = new ArrayList<>(mOriginalValues);
                     }
 
                     int count = values.size();

@@ -64,6 +64,16 @@
         app:layout_constraintStart_toEndOf="@id/btn_clear"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Reset"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toEndOf="@id/btn_sort"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.guodong.android.widget.edittext.DropSearchEditText
         android:id="@+id/drop_search"
         android:layout_width="match_parent"
@@ -74,6 +84,8 @@
         android:hint="请选择"
         android:textColorHint="#cccccc"
         android:textSize="12sp"
+        android:completionThreshold="1"
+        app:resetBeforeShow="false"
         app:expandClickRange="true"
         app:clickOffset="30dp"
         app:dropDownDrawable="@drawable/pic_drop_blue"

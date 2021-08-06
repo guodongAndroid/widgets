@@ -74,6 +74,10 @@ class DropSearchEditTextActivity : AppCompatActivity() {
                 adapter.sort { o1, o2 -> o1.id.compareTo(o2.id) }
             }
         }
+
+        mBinding.btnReset.setOnClickListener {
+            adapter.reset()
+        }
     }
 
     private fun generateModels(): MutableList<Model> {

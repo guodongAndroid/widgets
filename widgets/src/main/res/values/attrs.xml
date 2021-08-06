@@ -8,6 +8,7 @@
         <attr name="riseUpDrawable" format="reference"/>
         <attr name="expandClickRange" format="boolean"/>
         <attr name="clickOffset" format="dimension"/>
+        <attr name="resetBeforeShow" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="MarqueeTextView">
