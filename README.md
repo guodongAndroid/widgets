@@ -4,7 +4,7 @@
 
 ### 0.Version
 
-`def version = 1.0-alpha03`
+`def version = 1.0-alpha04`
 
 ### 1.Project level build.gradle
 
