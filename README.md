@@ -12,6 +12,12 @@
 maven {
 	url "https://raw.githubusercontent.com/guodongAndroid/maven/main/repository/"
 }
+
+or
+
+maven {
+	url "https://gitee.com/guodongAndroid/maven/raw/main/repository/"
+}
 ```
 
 ### 2.App level build.gradle
