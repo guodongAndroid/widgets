@@ -124,6 +124,9 @@ public class DropSearchEditText extends AppCompatAutoCompleteTextView
                         }
                     }
 
+                    setFocusable(true);
+                    setFocusableInTouchMode(true);
+                    requestFocus();
                     showDropDown();
                     return true;
                 }
